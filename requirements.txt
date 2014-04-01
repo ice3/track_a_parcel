@@ -1,1 +1,5 @@
+futures==2.1.6
+goslate==1.1.2
+requests==2.2.1
+urllib3==1.8
 wheel==0.22.0
