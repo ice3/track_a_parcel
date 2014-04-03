@@ -24,22 +24,24 @@ class Tracker():
 
     def track_dict(self, track_nb):
         d = OrderedDict([("trackingNumber", None),
-                        ("dstCountry", dist_country),
+                        ("dstCountry", self.dist_country),
                         ("postalService", 'upu')])
         d["trackingNumber"] = track_nb
         return d
 
     def create_url_1(self, parcels):
-        init_url = base_url
+        init_url = self.base_url
         init_url += "track&apiKey={api_key}&deviceId={device_id}&parcels={parcels}"
-        return init_url.format(api_key=API_KEY,
-                               device_id=DEVICE_ID,
+        return init_url.format(api_key=self.API_KEY,
+                               device_id=self.DEVICE_ID,
                                parcels=parcels)
 
     def create_url_2(self, uid):
-        ans_url = base_url
+        ans_url = self.base_url
         ans_url += "status&apiKey={api_key}&deviceId={device_id}&requestId={uid}"
-        return ans_url.format(api_key=API_KEY, device_id=DEVICE_ID, uid=uid)
+        return ans_url.format(api_key=self.API_KEY,
+                                device_id=self.DEVICE_ID,
+                                uid=uid)
 
 
     def get_answer(self, url):
@@ -69,8 +71,9 @@ class Tracker():
         """
         Localization fonction : translate from russian to english"""
         try:
-            res = gs.translate(_str.encode("utf8"), target_language=self.targer_language,
-                               source_language=self.source_language)
+            res = self.gs.translate(_str.encode("utf8"),
+                                    target_language=self.target_language,
+                                    source_language=self.source_language)
         except AssertionError:
             print ("assertion error : ")
             print('    {}'.format(_str))
@@ -90,11 +93,10 @@ class Tracker():
             for event in events :
                 res_event = {}
                 res_event["country"] = event["country"]
-                #res_event["detailedLocation"] = l10n(event["detailedLocation"])
-                res_event["date"] = translate_date(event["date"])
-                res_event["event"] = l10n(clean_html(event["event"]))
+                res_event["date"] = self.translate_date(event["date"])
+                res_event["event"] = self.l10n(self.clean_html(event["event"]))
                 res_event["eventId"] = event["eventId"]
-                res_event['location'] = l10n(event["location"])
+                res_event['location'] = self.l10n(event["location"])
                 l_events.append(res_event)
 
             tmp = {"events": l_events, "trackingNumber": trackingNumber}
@@ -103,22 +105,25 @@ class Tracker():
 
 
     def get_track_info(self, l_track_nb):
-        track = json.dumps([track_dict(nb) for nb in l_track_nb])
+        track = json.dumps([self.track_dict(nb) for nb in l_track_nb])
         url = self.create_url_1(track)
         answer = self.get_answer(url)
-        uid = self.answer['requestId']
+        uid = answer['requestId']
         url = self.create_url_2(uid)
         answer = self.get_answer(url)
         #pprint(answer)
         return answer
 
 
-    def get_md5(self, _object):
-        return hashlib.md5(ans.__str__().encode("utf8")).hexdigest()
-
     def track(self, l_tracking):
         answer = self.get_track_info(l_tracking)
         answer = self.interresting_field(answer)
+        return answer
+
+
+def get_md5(_object):
+    return hashlib.md5(ans.__str__().encode("utf8")).hexdigest()
+
 
 if __name__ == '__main__':
     track_number = ["RC476805741CN", "RC477597197CN",
