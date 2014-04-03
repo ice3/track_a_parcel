@@ -9,7 +9,7 @@ import datetime
 import hashlib
 
 
-class tracker():
+class Tracker():
 
     def __init__(self, dist_country="FR",
                  source_language="ru", target_language="en"):
