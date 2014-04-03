@@ -21,7 +21,6 @@ class Tracker():
         self.source_language = source_language
         self.target_language = target_language
 
-
     def track_dict(self, track_nb):
         d = OrderedDict([("trackingNumber", None),
                         ("dstCountry", self.dist_country),
