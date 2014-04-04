@@ -4,7 +4,6 @@
 import os
 import sys
 
-
 try:
     from setuptools import setup
 except ImportError:
@@ -16,6 +15,11 @@ if sys.argv[-1] == 'publish':
 
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+with open('requirements.txt') as f:
+    reqs = f.read().splitlines()
+
+#install_reqs = parse_requirements("requirements.txt")
+#reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name='track_a_parcel',
@@ -30,8 +34,7 @@ setup(
     ],
     package_dir={'track_a_parcel': 'track_a_parcel'},
     include_package_data=True,
-    install_requires=[
-    ],
+    install_requires=reqs,
     license="BSD",
     zip_safe=False,
     keywords='track_a_parcel',
