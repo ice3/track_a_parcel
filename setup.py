@@ -3,7 +3,6 @@
 
 import os
 import sys
-from multiprocessing import util
 
 # ugly pytest class definition...
 try:
