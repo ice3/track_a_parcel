@@ -8,21 +8,23 @@ test_track_a_parcel
 Tests for `track_a_parcel` module.
 """
 
-import unittest
+#import unittest
+import pytest
+from track_a_parcel.track_a_parcel import Tracker
 
-from track_a_parcel import track_a_parcel
-
-
-class TestTrack_a_parcel(unittest.TestCase):
-
-    def setUp(self):
-        pass
-
-    def test_something(self):
-        pass
-
-    def tearDown(self):
-        pass
+#class TestTrack_a_parcel(unittest.TestCase):
+#
+#    def setUp(self):
+#        pass
+#
+#    def test_something(self):
+#        pass
+#
+#    def tearDown(self):
+#        pass
+#
+def test_hello():
+    assert True ==True
 
 if __name__ == '__main__':
     unittest.main()
