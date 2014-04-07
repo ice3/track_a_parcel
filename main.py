@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-from track_a_parcel import Tracker, get_md5
+from track_a_parcel.track_a_parcel import Tracker, get_md5
 
 
 if __name__ == '__main__':
