@@ -19,5 +19,4 @@ Application to track parcels using the CLI
 
 Features
 --------
-
-* TODO
+Application to track parcels using CLI
