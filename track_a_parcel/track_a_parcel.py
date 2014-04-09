@@ -52,7 +52,7 @@ class Tracker():
         except ValueError:
             return _str
         else:
-            date = datetime.datetime.fromtimestamp(res)
+            date = datetime.datetime.utcfromtimestamp(res)
             return date.strftime('%Y-%m-%d %H:%M:%S')
 
     def clean_html(self, _str):
