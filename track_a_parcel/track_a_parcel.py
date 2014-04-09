@@ -57,7 +57,7 @@ class Tracker():
 
     def clean_html(self, _str):
         try:
-            res = _str.split(',')[0]
+            res = _str.split(', <span title=')[0]
         except:
             print('EXCEPTION : ', _str)
             res = _str
