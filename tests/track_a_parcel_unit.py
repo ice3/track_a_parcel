@@ -113,7 +113,7 @@ def test_url_2(tracker_simple):
 
 def test_translate_date_ok(tracker_simple):
     ts = "1395998892"
-    date = '2014-03-28 10:28:12'
+    date = '2014-03-28 09:28:12'
     assert tracker_simple.translate_date(ts) == date
 
 
