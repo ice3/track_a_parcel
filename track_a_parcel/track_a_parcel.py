@@ -100,11 +100,15 @@ class Tracker():
             res["parcels"].append(tmp)
         return res
 
+    def get_uid(self, answer):
+        return answer['requestId']
+
+
     def get_track_info(self, l_track_nb):
         track = json.dumps([self.track_dict(nb) for nb in l_track_nb])
         url = self.create_url_1(track)
         answer = self.get_answer(url)
-        uid = answer['requestId']
+        uid = self.get_uid(answer)
         url = self.create_url_2(uid)
         answer = self.get_answer(url)
         #pprint(answer)
