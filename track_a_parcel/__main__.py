@@ -10,16 +10,15 @@ def view(parcels):
     for event, track_nb in last_event_tracking:
         description, command, seller = info_track[track_nb]
         print(description, '({}, {})'.format(seller, command), sep=' ')
-        print(' -> ' + event['date'], event['event'], event['location'],
+        print('  -> ' + event['date'], event['event'], event['location'],
               sep=", ")
+        print()
 
 
 if __name__ == '__main__':
-    track_number = ["RC476805741CN", "RC477597197CN",
-                    "RC477408154CN", "RC476805741CN"]
     info_track = load_parcels("./data/mat.txt")
     tracker = Tracker()
-    ans = tracker.track(track_number)
+    ans = tracker.track(list(info_track))
     parcels = ans["parcels"]
     view(parcels)
     print(get_md5(ans))
