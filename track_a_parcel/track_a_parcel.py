@@ -122,3 +122,18 @@ class Tracker():
 
 def get_md5(_object):
     return hashlib.md5(_object.__str__().encode("utf8")).hexdigest()
+
+
+def load_parcels(fname):
+    res = {}
+    with open(fname, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith('#'):
+                continue
+            l_elem = line.split(";")
+            track_nb, seller, command, description = [e.strip() for e in l_elem]
+            res[track_nb] = (description, command, seller)
+        return res
