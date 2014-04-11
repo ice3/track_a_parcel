@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import os
+
 from track_a_parcel import Tracker, get_md5, load_parcels
+from command_line import create_args
 
 def view(parcels, info_track):
     last_event_tracking = [(p['events'][-1], p["trackingNumber"])
