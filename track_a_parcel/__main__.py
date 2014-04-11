@@ -3,6 +3,7 @@
 from __future__ import print_function
 from track_a_parcel import Tracker, get_md5, load_parcels
 
+def view(parcels, info_track):
     last_event_tracking = [(p['events'][-1], p["trackingNumber"])
                            for p in parcels]
 
