@@ -41,3 +41,8 @@ output/*/index.html
 
 # Sphinx
 docs/_build
+
+
+# project
+data
+venv_track_parcel
