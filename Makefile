@@ -37,7 +37,7 @@ coverage:
 	coverage run --source track_a_parcel setup.py test
 	coverage report -m
 	coverage html
-	open htmlcov/index.html
+	see htmlcov/index.html
 
 docs:
 	rm -f docs/track_a_parcel.rst
