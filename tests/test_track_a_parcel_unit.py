@@ -23,6 +23,14 @@ def tracker_custom():
     return Tracker("MC", "en", "fr")
 
 
+@pytest.fixture
+def tracker_no_l10n():
+    # we don't want to have call to google translate in unit tests
+    t = Tracker()
+    t.l10n = lambda x:  x
+    return t
+
+
 def test_dist_country(tracker_simple):
     tracker = tracker_simple
     assert tracker.dist_country == "FR"
