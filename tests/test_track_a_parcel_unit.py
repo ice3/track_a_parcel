@@ -149,3 +149,91 @@ def test_l10n(tracker_custom):
     to_translate = 'hello'
     res = 'bonjour'
     assert res == tracker_custom.l10n(to_translate)
+
+
+def test_interresting_field(tracker_no_l10n):
+    a = \
+    {
+    'parcels': [{
+        'trackingNumber': 'RC486713055CN',
+        'events': [{
+            'date': 1396411140,
+            'postalService': 'Почта Китая',
+            'event': 'Передана таможне, <span title="Guangzhou, 广州国际">Гуанчжоу</span>',
+            'detailedLocation': 'Guangzhou, 广州国际',
+            'weight': 0.000,
+            'country': 'CN',
+            'eventId': 125,
+            'location': 'Гуанчжоу'
+        }, {
+            'date': 1397225788,
+            'postalService': None,
+            'event': 'Посылка добавлена на сайт',
+            'detailedLocation': '',
+            'weight': 0.000,
+            'country': '',
+            'eventId': 10,
+            'location': ''
+        }]
+    }, {
+        'trackingNumber': 'RC107023715CN',
+        'events': [{
+            'date': 1396676460,
+            'postalService': 'Почта Китая',
+            'event': 'Поступила на почту Китая, <span title="Jiangmen, 广东江门开平广告">Цзянмэнь</span>',
+            'detailedLocation': 'Jiangmen, 广东江门开平广告',
+            'weight': 0.000,
+            'country': 'CN',
+            'eventId': 110,
+            'location': 'Цзянмэнь'
+        }, {
+            'date': 1397225788,
+            'postalService': None,
+            'event': 'Посылка добавлена на сайт',
+            'detailedLocation': '',
+            'weight': 0.000,
+            'country': '',
+            'eventId': 10,
+            'location': ''
+        }]
+    }]
+}
+
+    res = \
+{
+    'parcels': [{
+        'trackingNumber': 'RC486713055CN',
+        'events': [{
+            'location': 'Гуанчжоу',
+            'date': '2014-04-02 03:59:00',
+            'country': 'CN',
+            'eventId': 125,
+            'event': 'Передана таможне'
+        }, {
+            'location': '',
+            'date': '2014-04-11 14:16:28',
+            'country': '',
+            'eventId': 10,
+            'event': 'Посылка добавлена на сайт'
+        }]
+    }, {
+        'trackingNumber': 'RC107023715CN',
+        'events': [{
+            'location': 'Цзянмэнь',
+            'date': '2014-04-05 05:41:00',
+            'country': 'CN',
+            'eventId': 110,
+            'event': 'Поступила на почту Китая'
+        }, {
+            'location': '',
+            'date': '2014-04-11 14:16:28',
+            'country': '',
+            'eventId': 10,
+            'event': 'Посылка добавлена на сайт'
+        }]
+    }]
+}
+
+
+    res_try = tracker_no_l10n.interresting_field(a)
+    assert res == res_try
