@@ -39,11 +39,10 @@ def main(user):
         print(mess)
     else:
         info_track = load_parcels(user_parcelle)
-        print('Found {} parcels :'.format(len(info_track)))
-        print(*['  * ' + i for i in list(info_track)], sep = ' \n')
+        view_loading(info_track)
         parcels = track(info_track)
         print(parcels)
-        view(parcels, info_track)
+        view_info(parcels, info_track)
 
 
 if __name__ == '__main__':
