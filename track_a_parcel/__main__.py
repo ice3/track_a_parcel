@@ -6,7 +6,7 @@ import os
 from track_a_parcel import Tracker, get_md5, load_parcels
 from command_line import create_args
 
-def view(parcels, info_track):
+def view_info(parcels, info_track):
     last_event_tracking = [(p['events'][-1], p["trackingNumber"])
                            for p in parcels]
 
@@ -17,6 +17,11 @@ def view(parcels, info_track):
         print('  -> ' + event['date'], event['event'], event['location'],
               sep=", ")
         print()
+
+
+def view_loading(info_track):
+    print('Found {} parcels :'.format(len(info_track)))
+    print(*['  * ' + i for i in list(info_track)], sep = ' \n')
 
 
 def track(info_track):
@@ -34,6 +39,8 @@ def main(user):
         print(mess)
     else:
         info_track = load_parcels(user_parcelle)
+        print('Found {} parcels :'.format(len(info_track)))
+        print(*['  * ' + i for i in list(info_track)], sep = ' \n')
         parcels = track(info_track)
         print(parcels)
         view(parcels, info_track)
