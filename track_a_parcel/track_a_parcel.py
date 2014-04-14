@@ -4,11 +4,13 @@ from __future__ import print_function
 import goslate
 import urllib.request
 import json
-from pprint import pprint
 from collections import OrderedDict
 import datetime
 import hashlib
+import sys
 
+def log(mess):
+    print("## LOG : ", mess, file=sys.stderr)
 
 class Tracker():
 
