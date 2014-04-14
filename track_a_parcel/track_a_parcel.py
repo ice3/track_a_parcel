@@ -61,7 +61,7 @@ class Tracker():
         try:
             res = _str.split(', <span title=')[0]
         except:
-            print('EXCEPTION : ', _str)
+            log('EXCEPTION : ', _str)
             res = _str
         else:
             return res
@@ -74,12 +74,12 @@ class Tracker():
                                     target_language=self.target_language,
                                     source_language=self.source_language)
         except AssertionError:
-            print ("assertion error : ")
-            print('    {}'.format(_str))
+            log("assertion error : ")
+            log('    {}'.format(_str))
             res = _str
         except urllib.error.HTTPError as e:
             # error from google translate
-            print(e, _str, sep='\n   ')
+            log(e, _str, sep='\n   ')
             res = _str
         return res.encode("utf8").decode("utf8")
 
