@@ -43,8 +43,7 @@ def main(user):
         info_track = load_parcels(user_parcelle)
         view_loading(info_track)
         parcels = track(info_track)
-        print(parcels)
-        view_info(parcels, info_track)
+        view_info(parcels, info_track, 2)
 
 
 if __name__ == '__main__':
