@@ -87,6 +87,7 @@ class Tracker():
         res = {"parcels": []}
         for parcel in answer["parcels"]:
             events = parcel["events"]
+            events.sort(key=lambda x: x["date"])
             trackingNumber = parcel["trackingNumber"]
             l_events = []
             for event in events:
@@ -113,12 +114,12 @@ class Tracker():
         uid = self.get_uid(answer)
         url = self.create_url_2(uid)
         answer = self.get_answer(url)
-        #pprint(answer)
         return answer
 
     def track(self, l_tracking):
         answer = self.get_track_info(l_tracking)
         answer = self.interresting_field(answer)
+
         return answer
 
 
