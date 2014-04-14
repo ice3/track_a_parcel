@@ -10,12 +10,14 @@ def view_info(parcels, info_track):
     last_event_tracking = [(p['events'][-1], p["trackingNumber"])
                            for p in parcels]
 
-    for event, track_nb in last_event_tracking:
+    print(last_events_tracking)
+    for events, track_nb in last_events_tracking:
         description, command, seller = info_track[track_nb]
         print('[{}]'.format(track_nb), description,
               '({}, {})'.format(seller, command), sep=' ')
-        print('  -> ' + event['date'], event['event'], event['location'],
-              sep=", ")
+        for event in events :
+            print('  -> ' + event['date'], event['event'], event['location'],
+                  sep=", ")
         print()
 
 
