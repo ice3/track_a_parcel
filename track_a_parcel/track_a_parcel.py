@@ -162,10 +162,6 @@ class Tracker():
                 print("len old :", len(old_events), "|| len new :", len(new_events), sep = ' ')
                 res[tr_nb] = new_events[-1]
 
-
-        print(old, file=open("lol", "w"))
-        print("lol", new, file=open("lol", "a"))
-
         return res
 
 
