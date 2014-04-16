@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-import goslate
-import urllib.request
+
 import json
 from collections import OrderedDict
 import datetime
 import hashlib
 import sys
+import os
+
+import urllib.request
+import goslate
+from pprint import pprint
 
 def log(mess):
     print("## LOG : ", mess, file=sys.stderr)
@@ -23,6 +27,8 @@ class Tracker():
         self.dist_country = dist_country.upper()
         self.source_language = source_language
         self.target_language = target_language
+
+        self.track_cancelled = "tracking cancelled"
 
     def track_dict(self, track_nb):
         d = OrderedDict([("trackingNumber", None),
@@ -119,8 +125,48 @@ class Tracker():
     def track(self, l_tracking):
         answer = self.get_track_info(l_tracking)
         answer = self.interresting_field(answer)
-
         return answer
+
+    def save_query(self, parcelles, path):
+        log("saving last query")
+        with open(path, "w") as f:
+            json.dump(parcelles, f, ensure_ascii=False)
+        log("query saved")
+
+    def transform_data(self, data):
+        new = {}
+        for parcelle in data:
+            tr_number, events = parcelle["trackingNumber"], parcelle["events"]
+            new[tr_number] = events
+        return new
+
+    def is_new(self, path, data):
+        if not os.path.isfile(path):
+            return True
+        log("file exist")
+        with open(path) as f:
+            old_data = json.load(f)
+
+        old = self.transform_data(old_data)
+        new = self.transform_data(data)
+
+        # we check what's in old but not in new
+        diff_tr_nb = set(list(old)) - set(list(new))
+        # -1 for tracking cancelled
+        res = {tr: self.track_cancelled for tr in diff_tr_nb}
+
+        for tr_nb in new :
+            old_events = old.get(tr_nb, [1])  # can be in new but not old
+            new_events = new[tr_nb]  # we are sure it is
+            if old_events[-1] != new_events[-1]:
+                print("len old :", len(old_events), "|| len new :", len(new_events), sep = ' ')
+                res[tr_nb] = new_events[-1]
+
+
+        print(old, file=open("lol", "w"))
+        print("lol", new, file=open("lol", "a"))
+
+        return res
 
 
 def get_md5(_object):
@@ -140,3 +186,12 @@ def load_parcels(fname):
             track_nb, seller, command, description = [e.strip() for e in l_elem]
             res[track_nb] = (description, command, seller)
         return res
+
+
+def last_n_events(parcels, n):
+    nb_events = -n  # we want the N last events
+    # get the last events
+    tmp = [(p['events'][nb_events:], p["trackingNumber"]) for p in parcels]
+    # reverse : last events first
+    last_events_tracking = [(e[::-1], trNb) for e, trNb in tmp]
+    return last_events_tracking
