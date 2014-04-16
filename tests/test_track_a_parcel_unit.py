@@ -14,6 +14,10 @@ from track_a_parcel.track_a_parcel import Tracker
 from collections import OrderedDict
 import json
 
+import data
+print(dir(data))
+from data import interresting_fields
+
 @pytest.fixture
 def tracker_simple():
     return Tracker()
@@ -151,8 +155,13 @@ def test_l10n(tracker_custom):
     assert res == tracker_custom.l10n(to_translate)
 
 
-def test_interresting_field(tracker_no_l10n):
-    a = \
+def test_interresting_fields(tracker_no_l10n):
+    a = interresting_fields.a
+    res = interresting_fields.res
+    res_try = tracker_no_l10n.interresting_field(a)
+    assert res == res_try
+
+"""a = \
     {
     'parcels': [{
         'trackingNumber': 'RC486713055CN',
@@ -233,7 +242,4 @@ def test_interresting_field(tracker_no_l10n):
         }]
     }]
 }
-
-
-    res_try = tracker_no_l10n.interresting_field(a)
-    assert res == res_try
+"""
