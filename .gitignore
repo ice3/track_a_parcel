@@ -1,48 +1,15 @@
-*.py[cod]
+## generated file
+examples/flash_eeprom/flash_eeprom.ino
 
-# C extensions
-*.so
+## pyc
+__pycache__/
 
-# Packages
-*.egg
-*.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-lib
-lib64
+## virtualenvs
+venv
 
-# Installer logs
-pip-log.txt
+## sublime text stuff
+*.sublime-project
+*.sublime-workspace
 
-# Unit test / coverage reports
-.coverage
-.tox
-nosetests.xml
-htmlcov
-
-# Translations
-*.mo
-
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
-
-# Complexity
-output/*.html
-output/*/index.html
-
-# Sphinx
-docs/_build
-
-
-# project
-data
-venv_track_parcel
+## dockerfile
+Dockerfile
