@@ -81,10 +81,10 @@ def main():
     for parcel in data["parcels"]:
         events = parcel["events"]
         number = parcel["trackingNumber"]
-        p = get_or_create(session, Parcels, tracking_number=number)
+        p = get_or_create(Parcels, tracking_number=number)
         p.update_events(events)
-        session.add(p)
-        session.commit()
+        db.session.add(p)
+        db.session.commit()
 
     import IPython; IPython.embed()
 

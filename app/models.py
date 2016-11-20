@@ -10,8 +10,9 @@ import datetime
 
 from sqlalchemy import Column, String, DateTime, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
+from flask_sqlalchemy import SQLAlchemy
 
-from app import db
+db = SQLAlchemy()
 
 
 class Parcels(db.Model):
@@ -25,6 +26,7 @@ class Parcels(db.Model):
      * the date of last update
      * a list of events (foreign keys to ParcelEvents)
     """
+
     __tablename__ = 'parcels'
 
     tracking_number = Column(String, primary_key=True)
@@ -38,13 +40,17 @@ class Parcels(db.Model):
         back_populates="parcel",
     )
 
-    def update_events(self, events):
+    def update_events(self, dict_events):
         """Update the list of events with the one provided as argument."""
         self.events = []
-        for event in events:
-            e = ParcelEvents.from_api_dict(event)
+        for dict_event in dict_events:
+            e = ParcelEvents.from_api_dict(dict_event)
             self.events.append(e)
         self.updated = datetime.datetime.now()
+
+    @classmethod
+    def tracking_numbers(cls):
+        return (e[0] for e in db.session.query(cls.tracking_number).all())
 
     def __repr__(self):
         return ("<Parcel(tracking_number = {} -- "
@@ -66,6 +72,7 @@ class ParcelEvents(db.Model):
 
     The rows also contain original and translated versions of the postal service and event messages.
     """
+
     __tablename__ = "parcel_events"
 
     id = Column(Integer, primary_key=True)

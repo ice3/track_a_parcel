@@ -10,6 +10,8 @@ venv
 
 ##pytest stuff
 .cache
+.coverage
+htmlcov
 
 ## sqlite db
 *.db
