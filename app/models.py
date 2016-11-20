@@ -7,17 +7,14 @@ The models are :
 
 import datetime
 
-from sqlalchemy import Column, String, DateTime, Integer, Float
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import ForeignKey
+
+from sqlalchemy import Column, String, DateTime, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
-engine = create_engine('sqlite:///:memory:', echo=True)
-Base = declarative_base()
+from app import db
 
 
-class Parcels(Base):
+class Parcels(db.Model):
     """A database table containing the parcel information.
 
     A parcel is descrived with :
@@ -62,7 +59,7 @@ class Parcels(Base):
         )
 
 
-class ParcelEvents(Base):
+class ParcelEvents(db.Model):
     """A database table containing the parcel events.
 
     These events are related to a parcel.
@@ -108,77 +105,3 @@ class ParcelEvents(Base):
                     self.event_id,
                     self.weight,
         )
-
-
-def get_or_create(session, model, **kwargs):
-    """Get a row if exist otherwise create it.
-
-    Copy of django orm get_or_create.
-    """
-    instance = session.query(model).filter_by(**kwargs).first()
-    if instance:
-        return instance
-    else:
-        instance = model(**kwargs)
-        session.add(instance)
-        session.commit()
-        return instance
-
-engine = create_engine('sqlite:///tmp.db')
-Base.metadata.create_all(engine)
-
-
-
-def main():
-    from sqlalchemy.orm import sessionmaker
-
-    engine = create_engine('sqlite:///:memory:', echo=True)
-
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    Base.metadata.create_all(engine)
-    p = Parcels(tracking_number="2")
-    session.add(p)
-
-    e1 = ParcelEvents(
-        location="FR",
-        event="Arrivé",
-        event_id=1,
-        date=datetime.datetime.today()
-    )
-    e2 = ParcelEvents(
-        location="Lille",
-        event="Départ",
-        event_id=2,
-        date=datetime.datetime.today() - datetime.timedelta(1)
-    )
-    p.events = [e1, e2]
-    p.updated = datetime.datetime.now()
-    session.add(p)
-    session.commit()
-
-    e3 = ParcelEvents(
-        location="FR",
-        event="Arrivé",
-        event_id=3,
-        date=datetime.datetime.today() - datetime.timedelta(2)
-    )
-    e4 = ParcelEvents(
-        location="Lille",
-        event="Départ",
-        event_id=4,
-        date=datetime.datetime.today() - datetime.timedelta(3)
-    )
-    p.events = [e3, e4]
-    p.updated = datetime.datetime.now()
-    session.add(p)
-    session.commit()
-
-    p = session.query(Parcels).first()
-    print(p)
-    print("  * " + "\n  * ".join([str(e) for e in p.events]))
-
-
-if __name__ == '__main__':
-    main()
