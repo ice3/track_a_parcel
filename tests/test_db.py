@@ -5,14 +5,15 @@ import datetime
 import pytest
 
 from app import create_app
-from app.models import Parcels, ParcelEvents
-from app.db_utils import get_or_create
+from app.database.models import Parcels, ParcelEvents
+from app.database.models import db as _db
+from app.database.db_utils import get_or_create
 
 
 @pytest.yield_fixture(scope='function')
 def app():
     """Create an app each for each test function."""
-    app, _ = create_app("testing_config")
+    app = create_app("testing_config")
     # Establish an application context before running the tests.
     ctx = app.app_context()
     ctx.push()
@@ -25,14 +26,12 @@ def app():
 @pytest.yield_fixture(scope='function')
 def db(app):
     """Create a new database for each test function."""
-    _, db = create_app("testing_config")
-
     # NOTE: app, is required to keep the db in the right Flask app context
-    db.app = app
-    db.create_all()
-    yield db
+    _db.app = app
+    _db.create_all()
+    yield _db
 
-    db.drop_all()
+    _db.drop_all()
 
 
 @pytest.yield_fixture(scope='function')
