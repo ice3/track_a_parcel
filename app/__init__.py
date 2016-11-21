@@ -1,10 +1,7 @@
-"""Init file for the track_a_parcel app.
-
-"""
+"""Init file for the track_a_parcel app."""
 
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-from app.models import db
+from app.database.models import db
 
 
 def create_app(config):
@@ -13,8 +10,11 @@ def create_app(config):
     app.config.from_object(config)
 
     db.init_app(app)
-    return app, db
+    with app.app_context():
+        db.create_all()
+    return app
 
-app, db = create_app('config')
+app = create_app('config')
 
-from app import models
+from app import views
+from app.database import models

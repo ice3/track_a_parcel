@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>{{ title }} - track a parcel</title>
+  </head>
+  <body>
+      <h1>Parcels</h1>
+
+      {% for parcel in parcels %}
+      <div>
+        <div>{{ parcel.tracking_number }}</div>
+        <ul>
+          {% for event in parcel.events %}
+          <li>{{ event }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+  </body>
+</html>
