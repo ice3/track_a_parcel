@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>Track a parcel -- {{ title }}</title>
+    {% else %}
+    <title>Track a parcel</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Track a parcel: <a href="/index">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>

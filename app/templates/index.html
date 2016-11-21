@@ -1,8 +1,6 @@
-<html>
-  <head>
-    <title>{{ title }} - track a parcel</title>
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block content %}
+
       <h1>Parcels</h1>
 
       {% for parcel in parcels %}
@@ -15,5 +13,5 @@
         </ul>
       </div>
       {% endfor %}
-  </body>
-</html>
+
+{% endblock %}
