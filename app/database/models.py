@@ -34,6 +34,7 @@ class Parcels(db.Model):
     postal_service = Column(String, default="upu")
     added = Column(DateTime, default=datetime.datetime.now)
     updated = Column(DateTime, onupdate=datetime.datetime.now)
+    description = Column(String)
 
     events = relationship(
         "ParcelEvents",
@@ -42,15 +43,18 @@ class Parcels(db.Model):
 
     def update_events(self, dict_events):
         """Update the list of events with the one provided as argument."""
-        self.events = []
+        events = []
         for dict_event in dict_events:
             e = ParcelEvents.from_api_dict(dict_event)
-            self.events.append(e)
-        self.updated = datetime.datetime.now()
+            events.append(e)
+
+        if len(events) > len(self.events):
+            self.events = events
+            self.updated = datetime.datetime.now()
 
     @classmethod
     def tracking_numbers(cls):
-        return (e[0] for e in db.session.query(cls.tracking_number).all())
+        return db.session.query(cls.tracking_number).all()
 
     def __repr__(self):
         return ("<Parcel(tracking_number = {} -- "

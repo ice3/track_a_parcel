@@ -86,8 +86,8 @@ def test_update_events(db):
     assert [e3, e4] == db.session.query(Parcels).first().events
 
 
-def test_update_events_from_dict(db):
-    """Update the events using a dictionnary."""
+def test_no_event_update_when_smaller_number_of_events(db):
+    """We do not update when we lose some events."""
     event_dict = {
         'events': [{
             'country': '',
@@ -102,6 +102,34 @@ def test_update_events_from_dict(db):
 
     p = get_or_create(Parcels, tracking_number=event_dict["trackingNumber"])
     p.events = [ParcelEvents(), ParcelEvents()]
+    p.updated = datetime.datetime.now()
+    db.session.commit()
+
+    now = datetime.datetime.now()
+
+    p.update_events(event_dict["events"])
+    db.session.commit()
+
+    assert event_dict["trackingNumber"] == p.tracking_number
+    assert 2 == len(p.events)
+    assert now > p.updated
+
+
+def test_events_update_when_more_events(db):
+    event_dict = {
+        'events': [{
+            'country': '',
+            'date': 1479505311,
+            'event': 'Посылка добавлена на сайт',
+            'eventId': '10',
+            'location': '',
+            'postalService': None,
+            'weight': '0.000'
+        }],
+        'trackingNumber': 'RS806620392CN'}
+
+    p = get_or_create(Parcels, tracking_number=event_dict["trackingNumber"])
+    p.updated = datetime.datetime.now()
     db.session.commit()
 
     now = datetime.datetime.now()
@@ -111,7 +139,7 @@ def test_update_events_from_dict(db):
 
     assert event_dict["trackingNumber"] == p.tracking_number
     assert 1 == len(p.events)
-    assert 'Посылка добавлена на сайт' == p.events[0].event
+    assert "Посылка добавлена на сайт" in p.events[0].event
     assert now < p.updated
 
 
@@ -135,4 +163,4 @@ def test_tracking_numbers_from_parcels(db):
     db.session.add(Parcels(tracking_number="1"))
     db.session.add(Parcels(tracking_number="2"))
     db.session.commit()
-    assert ["1", "2"] == list(Parcels.tracking_numbers())
+    assert [("1",), ("2",)] == list(Parcels.tracking_numbers())
