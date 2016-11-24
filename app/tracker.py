@@ -13,7 +13,7 @@ FORMAT = (
     ' :: %(message)s'
 )
 logging.basicConfig(format=FORMAT)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 
 class Tracker():

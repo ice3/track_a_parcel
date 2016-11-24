@@ -6,13 +6,15 @@ The models are :
 """
 
 import datetime
-
+import logging
 
 from sqlalchemy import Column, String, DateTime, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+
+logger = logging.getLogger('root')
 
 
 class Parcels(db.Model):
@@ -48,12 +50,29 @@ class Parcels(db.Model):
             e = ParcelEvents.from_api_dict(dict_event)
             events.append(e)
 
+        logger.debug(
+            ("already present events number: {} "
+             "-- new events number: {}").format(len(self.events), len(events)))
+
         if len(events) > len(self.events):
+            logger.info("updating events for {}".format(self))
             self.events = events
             self.updated = datetime.datetime.now()
+        else:
+            logger.info("not updating events for {}".format(self))
+        logger.info("{}".format(self))
+        db.session.commit()
+
+    def last_updated(self):
+        """If the parcel has never been updated, we return the creation date."""
+        return self.updated or self.added
 
     @classmethod
     def tracking_numbers(cls):
+        """Return all the registered tracking_numbers.
+
+        When the database grow, I wonder if we should paginate here or where we use the data...
+        """
         return db.session.query(cls.tracking_number).all()
 
     def __repr__(self):
