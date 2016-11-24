@@ -5,7 +5,7 @@
 
       {% for parcel in parcels %}
       <div>
-        <div>{{ parcel.tracking_number }}</div>
+        <div> {{ parcel.description }} -- {{ parcel.tracking_number }}</div>
         <ul>
           {% for event in parcel.events %}
           <li>{{ event }}</li>
