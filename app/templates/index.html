@@ -1,17 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-      <h1>Parcels</h1>
+  <h1>Parcels</h1>
 
-      {% for parcel in parcels %}
-      <div>
-        <div> {{ parcel.description }} -- {{ parcel.tracking_number }}</div>
-        <ul>
-          {% for event in parcel.events %}
-          <li>{{ event }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endfor %}
+  {% for parcel in parcels %}
+  <div>
+    <div> {{ parcel.description }} -- {{ parcel.tracking_number }} -- {{ parcel.events | count }} events</div>
+      {% include "events.html" %}
+  </div>
+  {% endfor %}
 
 {% endblock %}

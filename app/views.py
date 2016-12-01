@@ -9,6 +9,7 @@ from app.utils import async_update_events
 
 @app.route('/')
 def index():
+    """Site root."""
     async_update_events()
     parcels = db.session.query(Parcels).all()
 

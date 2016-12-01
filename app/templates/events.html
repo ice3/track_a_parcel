@@ -1,0 +1,17 @@
+{% macro event_display(event) -%}
+  {{ event.date }} : {{ event.event_id }}
+  {% if event.location %} at {{ event.location }}{%endif%}
+{%- endmacro %}
+
+<div class="dropdown tap-events">
+  <button class="btn btn-default dropdown-toggle" type="button" id="events-{{ parcel.tracking_number }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{ event_display(parcel.events[-1]) }}
+    <span class="caret"></span>
+  </button>
+
+  <ul class="dropdown-menu" aria-labelledby="events-{{ parcel.tracking_number }}">
+    {% for event in parcel.events|sort(attribute='date', reverse=True)  %}
+      <li> <a href="#">{{ event_display(event) }}</a> </li>
+    {% endfor %}
+  </ul>
+</div>
