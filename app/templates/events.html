@@ -1,5 +1,5 @@
 {% macro event_display(event) -%}
-  {{ event.date }} : {{ event.event_id }}
+  {{ event.date | datetimeformat }} : {{ event.event_id | event_format }}
   {% if event.location %} at {{ event.location }}{%endif%}
 {%- endmacro %}
 
@@ -11,7 +11,7 @@
 
   <ul class="dropdown-menu" aria-labelledby="events-{{ parcel.tracking_number }}">
     {% for event in parcel.events|sort(attribute='date', reverse=True)  %}
-      <li> <a href="#">{{ event_display(event) }}</a> </li>
+      <li> {{ event_display(event) }} </li>
     {% endfor %}
   </ul>
 </div>
