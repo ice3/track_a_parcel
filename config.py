@@ -18,3 +18,20 @@ FORMAT = (
 )
 logging.basicConfig(format=FORMAT)
 logger.setLevel(logging.DEBUG)
+
+
+EVENT_TRADS = {
+    10: "envoie ajouté au site",
+    100: "informations sur l'envoie entrée electroniquement",
+    105: "importation",
+    110: "Recu par China Post",
+    145: "Arrivé à un point de transit",
+    150: "Quitte le point de transit",
+    160: "Arrive dans un centre de tri",
+    165: "Tri en cours",
+    180: "Quitte la poste (changement de livreur ?)",
+    185: "Arrivé au lieu de livraison",
+    200: "Présenté et remis au destinataire",
+}
+
+EVENTS_WITH_CITY = [145, 150, 185, 200]
