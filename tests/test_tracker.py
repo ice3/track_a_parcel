@@ -2,7 +2,7 @@
 
 import pytest
 
-from app.tracker import Tracker
+from app.tracker.tracker import Tracker
 
 
 @pytest.fixture

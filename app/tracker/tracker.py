@@ -7,13 +7,6 @@ import urllib.request
 import logging
 
 logger = logging.getLogger('root')
-FORMAT = (
-    '[%(asctime)s :: %(levelname)s '
-    '%(filename)s:%(lineno)s - %(funcName)10s() ]'
-    ' :: %(message)s'
-)
-logging.basicConfig(format=FORMAT)
-logger.setLevel(logging.DEBUG)
 
 
 class Tracker():
@@ -80,9 +73,13 @@ class Tracker():
 
     def get_answer(self, url):
         """Get the content from an url and jsonify it."""
-        return json.loads(
-            urllib.request.urlopen(url).read().decode("utf-8")
-        )
+        try:
+            data = urllib.request.urlopen(url).read().decode("utf-8")
+        except urllib.error.URLError as e:
+            # logger.exception(e)
+            return None
+        else:
+            return json.loads(data)
 
     def track(self, parcels):
         """Track a list of parcels using the api.
@@ -97,6 +94,8 @@ class Tracker():
         logger.debug("contacting url 1: {}".format(url))
 
         answer = self.get_answer(url)
+        if not answer:
+            return None
         logger.info("got answer: {}".format(answer))
 
         uid = answer['requestId']
@@ -106,8 +105,10 @@ class Tracker():
         logger.debug("contacting url 2: {}".format(url))
 
         answer = self.get_answer(url)
-        logger.info("got answer: {}".format(answer))
+        if not answer:
+            return None
 
+        logger.info("got answer: {}".format(answer))
         return answer
 
 if __name__ == "__main__":
