@@ -127,11 +127,12 @@ class ParcelEvents(db.Model):
     def __repr__(self):
         return ("<TrackingEvent(parcel = {} -- "
                 "date = {} -- postal_service = {} -- "
-                "event = {} -- event_id = {} -- weight = {})").format(
+                "event = {} -- event_id = {} -- weight = {} -- location = {})").format(
                     self.parcel_number,
                     self.date,
                     self.postal_service,
                     self.event,
                     self.event_id,
                     self.weight,
+                    self.location,
         )
