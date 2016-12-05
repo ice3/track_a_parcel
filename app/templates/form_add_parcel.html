@@ -1,0 +1,24 @@
+<div>
+  <div>
+    <button class="no-border btn-block" data-toggle="collapse" href="#divFormAddParcel">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span>Ajouter un colis</span>
+    </button>
+  </div>
+
+
+  <div id="divFormAddParcel" class="panel-collapse collapse">
+    <form id="formAddParcel" class="">
+      <div class="form-group">
+        <label for="parcelFormTrackingNumber">Numéro de suivi du colis</label>
+        <input type="text" name="tracking_number" id="parcelFormTrackingNumber" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="parcelFormDescription">Description du colis</label>
+        <input type="text" class="form-control" name="description" id="parcelFormDescription">
+      </div>
+    <input type="submit" value="Submit" id="formAddParcelSubmit" onClick="add_parcel(event)">
+    </form>
+  </div>
+
+</div>

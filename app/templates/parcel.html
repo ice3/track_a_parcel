@@ -1,0 +1,52 @@
+<div class="panel panel-default" id="panel-{{parcel.tracking_number}}">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+    <span>{%if parcel.description%}{{ parcel.description }}{%else%}&nbsp{%endif%}</span>
+
+    <div class="pull-right">
+      <span>
+        <button onclick="toggle_received('{{parcel.tracking_number}}')" class="no-border">
+          <span id='received-{{parcel.tracking_number}}' class="glyphicon glyphicon-ok {% if parcel.received %}text-success{% endif %}" aria-hidden="true"></span>
+        </button>
+      </span>
+
+      <span>
+        <button onclick="delete_parcel('{{parcel.tracking_number}}')" class="no-border ">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+      </span>
+    </div>
+
+  </div>
+  <div class="panel-body">
+    <p>{{ parcel.tracking_number }} -- {{ parcel.events | count }} événements</p>
+
+    <p>
+    {% if parcel.events %}
+      Dernier événement :   {{ parcel.events[-1].date | datetimeformat }} : {{ parcel.events[-1].event_id | event_format }} {% if parcel.events[-1].location %} à {{ parcel.events[-1].location | city_format }} {%endif%}
+    {% else %}
+      Pas encore d'événements pour ce colis.
+    {% endif %}
+    <p>
+
+    <a data-toggle="collapse" href="#parcel-{{parcel.tracking_number}}-events-table" class="btn btn-block">
+      <span class="glyphicon glyphicon-collapse-down">
+      </span>
+      <span>Voir plus</span>
+    </a>
+  </div>
+
+  {% if parcel.events %}
+    <div class="panel-collapse collapse" id="parcel-{{parcel.tracking_number}}-events-table">
+      <table class="table text-center">
+        <tr class="text-center">
+          <th class="text-center">Date</th>
+          <th class="text-center">Evénement</th>
+          <th class="text-center">Ville</th>
+        </tr>
+        {% include "events.html" %}
+      </table>
+    </div>
+  {% endif %}
+
+</div>

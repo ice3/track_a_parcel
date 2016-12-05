@@ -3,15 +3,23 @@
   {% if event.location %} at {{ event.location }}{%endif%}
 {%- endmacro %}
 
-<div class="dropdown tap-events">
-  <button class="btn btn-default dropdown-toggle" type="button" id="events-{{ parcel.tracking_number }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    {{ event_display(parcel.events[-1]) }}
-    <span class="caret"></span>
-  </button>
+{% macro event_display_table(event) -%}
+  <tr>
+    <td> {{ event.date | datetimeformat }} </td>
+    <td> {{ event.event_id | event_format }} </td>
+    <td> {% if event.location %} {{ event.location | city_format }} {%endif%} </td>
+  </tr>
+{%- endmacro %}
 
-  <ul class="dropdown-menu" aria-labelledby="events-{{ parcel.tracking_number }}">
-    {% for event in parcel.events|sort(attribute='date', reverse=True)  %}
-      <li> {{ event_display(event) }} </li>
-    {% endfor %}
-  </ul>
-</div>
+
+
+{% if parcel.events %}
+  {% for event in parcel.events|sort(attribute='date', reverse=True)  %}
+    {{ event_display_table(event) }}
+  {% endfor %}
+
+{% else %}
+
+<div>Aucun événements pour ce colis.</div>
+
+{% endif %}

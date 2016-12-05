@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 
-  <h1>Parcels</h1>
+<div class="page-header">
+  <h1>Suivez vos colis avec style</h1>
+</div>
 
-  {% for parcel in parcels %}
-  <div>
-    <div> {{ parcel.description }} -- {{ parcel.tracking_number }} -- {{ parcel.events | count }} events</div>
-      {% include "events.html" %}
-  </div>
-  {% endfor %}
+<div id="parcels">
+{% for parcel in parcels %}
+  {% include "parcel.html" %}
+{% endfor %}
+</div>
+
+{% include "form_add_parcel.html" %}
 
 {% endblock %}

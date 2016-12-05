@@ -8,7 +8,7 @@ The models are :
 import datetime
 import logging
 
-from sqlalchemy import Column, String, DateTime, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, DateTime, Integer, Float, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 
@@ -37,6 +37,7 @@ class Parcels(db.Model):
     added = Column(DateTime, default=datetime.datetime.now)
     updated = Column(DateTime, onupdate=datetime.datetime.now)
     description = Column(String)
+    received = Column(Boolean, default=False)
 
     events = relationship(
         "ParcelEvents",
@@ -69,11 +70,14 @@ class Parcels(db.Model):
 
     @classmethod
     def tracking_numbers(cls):
-        """Return all the registered tracking_numbers.
+        """Return all the active tracking_numbers (the ones not received).
 
         When the database grow, I wonder if we should paginate here or where we use the data...
         """
-        return db.session.query(cls.tracking_number).all()
+        return db.session\
+            .query(cls.tracking_number)\
+            .filter_by(received=False)\
+            .all()
 
     def __repr__(self):
         return ("<Parcel(tracking_number = {} -- "

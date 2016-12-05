@@ -31,7 +31,13 @@ EVENT_TRADS = {
     165: "Tri en cours",
     180: "Quitte la poste (changement de livreur ?)",
     185: "Arrivé au lieu de livraison",
+    195: "Tentative de livraison infructueuse",
     200: "Présenté et remis au destinataire",
 }
 
-EVENTS_WITH_CITY = [145, 150, 185, 200]
+CITY_TRADS = {
+    "Шэньчжэнь": "Shenzhen",
+    "Лилль": "Lille",
+}
+
+EVENTS_WITH_CITY = [145, 150, 185, 195, 200]

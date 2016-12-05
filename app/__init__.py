@@ -19,5 +19,6 @@ app = create_app('config')
 from app import views
 app.jinja_env.filters['datetimeformat'] = views.datetimeformat
 app.jinja_env.filters['event_format'] = views.event_format
+app.jinja_env.filters['city_format'] = views.city_format
 
 from app.database import models
