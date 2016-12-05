@@ -79,7 +79,6 @@ class Parcels(db.Model):
             .filter_by(received=False)\
             .all()
 
-
     @classmethod
     def all_tracking_numbers(cls):
         """Return all the active tracking_numbers (the ones not received).
