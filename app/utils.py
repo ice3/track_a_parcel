@@ -45,7 +45,7 @@ def async_update_events():
 
 def update_events_from_api():
     """Use the Tracking API to update events for registered parcels."""
-    parcels_numbers = Parcels.tracking_numbers()
+    parcels_numbers = Parcels.active_tracking_numbers()
     tracker = Tracker()
     parcel_events = tracker.track(parcels_numbers)
     if not parcel_events:
