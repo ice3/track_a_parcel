@@ -69,7 +69,7 @@ class Parcels(db.Model):
         return self.updated or self.added
 
     @classmethod
-    def tracking_numbers(cls):
+    def active_tracking_numbers(cls):
         """Return all the active tracking_numbers (the ones not received).
 
         When the database grow, I wonder if we should paginate here or where we use the data...
@@ -77,6 +77,17 @@ class Parcels(db.Model):
         return db.session\
             .query(cls.tracking_number)\
             .filter_by(received=False)\
+            .all()
+
+
+    @classmethod
+    def all_tracking_numbers(cls):
+        """Return all the active tracking_numbers (the ones not received).
+
+        When the database grow, I wonder if we should paginate here or where we use the data...
+        """
+        return db.session\
+            .query(cls.tracking_number)\
             .all()
 
     def __repr__(self):
