@@ -53,6 +53,6 @@ def update_events_from_api():
     events_dicts = parcel_events['parcels']
 
     for events_dict in events_dicts:
-        p = get_or_create(Parcels, tracking_number=events_dict['trackingNumber'])
+        p, created = get_or_create(Parcels, tracking_number=events_dict['trackingNumber'])
         p.update_events(events_dict['events'])
         db.session.add(p)
