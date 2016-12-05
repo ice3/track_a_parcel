@@ -12,7 +12,7 @@ function delete_parcel(parcel_number){
 }
 
 function toggle_received(parcel_number){
-  console.log("delete parcel : ", parcel_number)
+  console.log("update parcel receive status : ", parcel_number)
   $.ajax({
     url: '/api/parcel/'+parcel_number ,
     type: 'UPDATE',
@@ -44,6 +44,7 @@ function add_parcel(event){
           } else {
             $('#panel-'+data.number).replaceWith(data.html)  ;
           }
+          $("#divFormAddParcel").collapse("hide");
         }
     });
 };
