@@ -4,11 +4,13 @@ from flask import render_template, request, jsonify
 from app import app
 from app.database.models import db, Parcels, ParcelEvents
 from app.database.db_utils import get_or_create
+from app.decorators import requires_auth
 
 logger = logging.getLogger('root')
 
 
 @app.route('/')
+@requires_auth
 def index():
     """Site root."""
     # async_update_events()
